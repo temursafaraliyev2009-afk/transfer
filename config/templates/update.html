@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Player | TransferWindow</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top right, #dbeafe, transparent 35%),
+                radial-gradient(circle at bottom left, #ede9fe, transparent 35%),
+                #f8fafc;
+            color: #111827;
+        }
+
+        .navbar {
+            height: 75px;
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 8%;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.06);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            text-decoration: none;
+            color: #111827;
+        }
+
+        .logo span {
+            color: #2563eb;
+        }
+
+        .back {
+            text-decoration: none;
+            color: #2563eb;
+            font-weight: 700;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 650px;
+            margin: 60px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        .current-player {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 15px;
+            background: #f1f5f9;
+        }
+
+        .current-player img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .current-player h3 {
+            font-size: 18px;
+        }
+
+        .current-player p {
+            color: #6b7280;
+            margin-top: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            outline: none;
+            font-size: 15px;
+        }
+
+        input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37,99,235,0.12);
+        }
+
+        input[type="file"] {
+            padding: 12px;
+            background: #f8fafc;
+        }
+
+        .update-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 13px;
+            color: white;
+            font-weight: 800;
+            font-size: 16px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            transition: 0.3s;
+        }
+
+        .update-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(37,99,235,0.3);
+        }
+
+        @media(max-width: 600px) {
+
+            .navbar {
+                padding: 0 5%;
+            }
+
+            .card {
+                padding: 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <a href="{% url 'home' %}" class="logo">
+        Transfer<span>Window</span>
+    </a>
+
+    <a href="{% url 'detail' player.pk %}" class="back">
+        ← Back
+    </a>
+
+</nav>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1 class="title">
+            ✏️ Edit Player
+        </h1>
+
+        <p class="subtitle">
+            Update player information
+        </p>
+
+        {% if player.image %}
+
+            <div class="current-player">
+
+                <img src="{{ player.image.url }}" alt="{{ player.name }}">
+
+                <div>
+
+                    <h3>{{ player.name }}</h3>
+
+                    <p>{{ player.club }}</p>
+
+                </div>
+
+            </div>
+
+        {% endif %}
+
+        <form method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            {% for field in form %}
+
+                <div class="form-group">
+
+                    <label>
+                        {{ field.label }}
+                    </label>
+
+                    {{ field }}
+
+                </div>
+
+            {% endfor %}
+
+            <button type="submit" class="update-btn">
+                💾 Save Changes
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

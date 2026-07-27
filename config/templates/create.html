@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Player | TransferWindow</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top left, #dbeafe, transparent 35%),
+                radial-gradient(circle at bottom right, #ede9fe, transparent 35%),
+                #f8fafc;
+            color: #111827;
+        }
+
+        .navbar {
+            height: 75px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 8%;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.06);
+        }
+
+        .logo {
+            text-decoration: none;
+            color: #111827;
+            font-size: 24px;
+            font-weight: 900;
+        }
+
+        .logo span {
+            color: #2563eb;
+        }
+
+        .back {
+            text-decoration: none;
+            color: #2563eb;
+            font-weight: 700;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 650px;
+            margin: 60px auto;
+        }
+
+        .form-card {
+            background: rgba(255,255,255,0.9);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            backdrop-filter: blur(15px);
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 32px;
+            font-weight: 900;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 35px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            outline: none;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37,99,235,0.12);
+        }
+
+        input[type="file"] {
+            padding: 12px;
+            background: #f8fafc;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: white;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(37,99,235,0.3);
+        }
+
+        .error {
+            color: #dc2626;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        @media(max-width: 600px) {
+
+            .navbar {
+                padding: 0 5%;
+            }
+
+            .form-card {
+                padding: 25px;
+            }
+
+            .title {
+                font-size: 26px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <a href="{% url 'home' %}" class="logo">
+        Transfer<span>Window</span>
+    </a>
+
+    <a href="{% url 'home' %}" class="back">
+        ← Back to Home
+    </a>
+
+</nav>
+
+<div class="container">
+
+    <div class="form-card">
+
+        <h1 class="title">
+            ⚽ Add New Player
+        </h1>
+
+        <p class="subtitle">
+            Add a new football player to the transfer database
+        </p>
+
+        <form method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            {% for field in form %}
+
+                <div class="form-group">
+
+                    <label>
+                        {{ field.label }}
+                    </label>
+
+                    {{ field }}
+
+                    {% if field.errors %}
+
+                        <div class="error">
+                            {{ field.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+            <button type="submit" class="submit-btn">
+                ➕ Add Player
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>
